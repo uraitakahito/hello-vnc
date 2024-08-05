@@ -58,12 +58,17 @@ RUN apt-get update -qq && \
 #
 # Desktop
 #
+# Install XFCE, VNC server, dbus-x11, and xfonts-base
 RUN apt-get update -qq && \
   apt-get upgrade -y -qq && \
   apt-get install -y -qq --no-install-recommends \
-    lxde && \
+    xfce4 \
+    xfce4-goodies \
+    tightvncserver \
+    dbus-x11 \
+    xfonts-base && \
   apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 #
 # VNC
