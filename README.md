@@ -14,7 +14,7 @@ Run docker containers:
 Run the following commands inside the Docker containers:
 
 ```console
-% USER=root vncserver :1 -geometry 800x600 -depth 24
+% USER=developer vncserver :1 -geometry 1024x768 -depth 24
 % websockify -D --web=/usr/share/novnc/ 80 localhost:5901
 ```
 
