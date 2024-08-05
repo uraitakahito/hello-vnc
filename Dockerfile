@@ -114,6 +114,11 @@ RUN mkdir /home/${user_name}/.vnc \
     && chmod 600 /home/${user_name}/.vnc/passwd
 
 #
+# Create an .Xauthority file
+#
+RUN touch /home/${user_name}/.Xauthority
+
+#
 # dotfiles
 #
 RUN cd /home/${user_name} && \
