@@ -81,6 +81,11 @@ RUN apt-get update -qq && \
     tigervnc-common && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
+# Set display resolution
+ENV RESOLUTION=1280x1024
+# Copy a script to start the VNC server
+COPY start-vnc.sh /bin/start-vnc.sh
+RUN chmod +x /bin/start-vnc.sh
 
 #
 # noVNC
@@ -108,7 +113,9 @@ RUN cd /usr/src && \
     /usr/src/features/src/common-utils/install.sh
 USER ${user_name}
 
+#
 # Setup VNC server
+#
 RUN mkdir /home/${user_name}/.vnc \
     && echo "password" | vncpasswd -f > /home/${user_name}/.vnc/passwd \
     && chmod 600 /home/${user_name}/.vnc/passwd
