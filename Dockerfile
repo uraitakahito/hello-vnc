@@ -58,12 +58,17 @@ RUN apt-get update -qq && \
 #
 # Desktop
 #
+# Install XFCE, VNC server, dbus-x11, and xfonts-base
 RUN apt-get update -qq && \
   apt-get upgrade -y -qq && \
   apt-get install -y -qq --no-install-recommends \
-    lxde && \
+    xfce4 \
+    xfce4-goodies \
+    tightvncserver \
+    dbus-x11 \
+    xfonts-base && \
   apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 #
 # VNC
@@ -76,6 +81,11 @@ RUN apt-get update -qq && \
     tigervnc-common && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
+# Set display resolution
+ENV RESOLUTION=1280x1024
+# Copy a script to start the VNC server
+COPY start-vnc.sh /bin/start-vnc.sh
+RUN chmod +x /bin/start-vnc.sh
 
 #
 # noVNC
@@ -87,11 +97,6 @@ RUN apt-get update -qq && \
     websockify && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
-
-# Setup VNC server
-RUN mkdir /root/.vnc \
-    && echo "password" | vncpasswd -f > /root/.vnc/passwd \
-    && chmod 600 /root/.vnc/passwd
 EXPOSE 6080
 
 COPY docker-entrypoint.sh /usr/local/bin/
@@ -107,6 +112,18 @@ RUN cd /usr/src && \
   CONFIGUREZSHASDEFAULTSHELL=true \
     /usr/src/features/src/common-utils/install.sh
 USER ${user_name}
+
+#
+# Setup VNC server
+#
+RUN mkdir /home/${user_name}/.vnc \
+    && echo "password" | vncpasswd -f > /home/${user_name}/.vnc/passwd \
+    && chmod 600 /home/${user_name}/.vnc/passwd
+
+#
+# Create an .Xauthority file
+#
+RUN touch /home/${user_name}/.Xauthority
 
 #
 # dotfiles

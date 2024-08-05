@@ -8,14 +8,7 @@ Build the image:
 Run docker containers:
 
 ```console
-% docker container run -it --rm --init -p 6080:80 --shm-size=512m --name $PROJECT-container $PROJECT-image /bin/zsh
-```
-
-Run the following commands inside the Docker containers:
-
-```console
-% USER=root vncserver :1 -geometry 800x600 -depth 24
-% websockify -D --web=/usr/share/novnc/ 80 localhost:5901
+% docker container run -it --rm --init -p 6080:80 --shm-size=512m --name $PROJECT-container $PROJECT-image /bin/start-vnc.sh
 ```
 
 The websockify can be accessed at:
@@ -23,4 +16,6 @@ The websockify can be accessed at:
 - http://localhost:6080/vnc.html
 
 See also:
-https://kamino.hatenablog.com/entry/docker_vnc
+- https://kamino.hatenablog.com/entry/docker_vnc
+- https://medium.com/@gustav0.lewin/how-to-make-a-docker-container-with-vnc-access-f607958141ae
+
