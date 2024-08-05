@@ -92,11 +92,6 @@ RUN apt-get update -qq && \
     websockify && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
-
-# Setup VNC server
-RUN mkdir /root/.vnc \
-    && echo "password" | vncpasswd -f > /root/.vnc/passwd \
-    && chmod 600 /root/.vnc/passwd
 EXPOSE 6080
 
 COPY docker-entrypoint.sh /usr/local/bin/
@@ -112,6 +107,11 @@ RUN cd /usr/src && \
   CONFIGUREZSHASDEFAULTSHELL=true \
     /usr/src/features/src/common-utils/install.sh
 USER ${user_name}
+
+# Setup VNC server
+RUN mkdir /home/${user_name}/.vnc \
+    && echo "password" | vncpasswd -f > /home/${user_name}/.vnc/passwd \
+    && chmod 600 /home/${user_name}/.vnc/passwd
 
 #
 # dotfiles
