@@ -11,3 +11,6 @@ echo "VNC server started at $RESOLUTION! ^-^"
 #
 echo "Starting websockify..."
 websockify -D --web=/usr/share/novnc/ 80 localhost:5901
+
+echo "Starting tail -F /dev/null..."
+tail -F /dev/null
