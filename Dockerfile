@@ -10,7 +10,6 @@ ARG dotfiles_repository="https://github.com/uraitakahito/dotfiles.git"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -qq && \
-  apt-get upgrade -y -qq && \
   apt-get install -y -qq --no-install-recommends \
     ca-certificates \
     git && \
@@ -21,7 +20,6 @@ RUN apt-get update -qq && \
 # Install packages
 #
 RUN apt-get update -qq && \
-  apt-get upgrade -y -qq && \
   apt-get install -y -qq --no-install-recommends \
     # Basic
     iputils-ping \
@@ -40,7 +38,6 @@ RUN apt-get update -qq && \
 # https://github.com/eza-community/eza/blob/main/INSTALL.md
 #
 RUN apt-get update -qq && \
-  apt-get upgrade -y -qq && \
   apt-get install -y -qq --no-install-recommends \
     gpg \
     wget && \
@@ -60,7 +57,6 @@ RUN apt-get update -qq && \
 #
 # Install XFCE, VNC server, dbus-x11, and xfonts-base
 RUN apt-get update -qq && \
-  apt-get upgrade -y -qq && \
   apt-get install -y -qq --no-install-recommends \
     xfce4 \
     xfce4-goodies \
@@ -74,7 +70,6 @@ RUN apt-get update -qq && \
 # VNC
 #
 RUN apt-get update -qq && \
-  apt-get upgrade -y -qq && \
   apt-get install -y -qq --no-install-recommends \
     tigervnc-standalone-server \
     tigervnc-tools \
@@ -91,13 +86,25 @@ RUN chmod +x /bin/start-vnc.sh
 # noVNC
 #
 RUN apt-get update -qq && \
-  apt-get upgrade -y -qq && \
   apt-get install -y -qq --no-install-recommends \
     novnc \
     websockify && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 EXPOSE 6080
+
+#
+# Firefox
+#
+RUN apt-get update -qq && \
+  apt-get install -y -qq --no-install-recommends \
+    firefox-esr \
+    firefox-esr-l10n-ja \
+    fonts-noto-cjk \
+    fonts-ipafont-gothic \
+    fonts-ipafont-mincho && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
