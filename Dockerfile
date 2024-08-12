@@ -93,6 +93,19 @@ RUN apt-get update -qq && \
   rm -rf /var/lib/apt/lists/*
 EXPOSE 6080
 
+#
+# Firefox
+#
+RUN apt-get update -qq && \
+  apt-get install -y -qq --no-install-recommends \
+    firefox-esr \
+    firefox-esr-l10n-ja \
+    fonts-noto-cjk \
+    fonts-ipafont-gothic \
+    fonts-ipafont-mincho && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
+
 COPY docker-entrypoint.sh /usr/local/bin/
 
 #
